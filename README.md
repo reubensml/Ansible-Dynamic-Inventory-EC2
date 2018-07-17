@@ -63,11 +63,11 @@ $ ssh-agent bash
 $ ansibleadmin@lpgpsap1014:~/.ssh> ssh-add ~/.ssh/MYLABEC2.pem
 Identity added: /home/ansibleadmin/.ssh/MYLABEC2.pem (/home/ansibleadmin/.ssh/MYLABEC2.pem
 
-Make sure port 22 is open between the servers mahe sure ssh is working as ssh ec2-user@XXXX
-------
-set in the ec2.ini file the following value or there will be an error ERROR: "Forbidden", while: getting ElastiCache
-clusters
+- Make sure port 22 is open between the servers make sure ssh is working as ssh ec2-user@XXXX
 
+- Set in the ec2.ini file the following below value or there will be an error ERROR: "Forbidden", while: getting ElastiCache
+clusters
+-------
 # To exclude ElastiCache instances from the inventory, uncomment and set to False.
 elasticache = False
 This will fix the above issue
