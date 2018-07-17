@@ -1,7 +1,7 @@
 # Ansible-Dynamic-Inventory-EC2
 Dynamic inventory for Ansible hosts when working with AWS Cloud 
 
- Dynamic inventory for Ansible hosts when working with AWS Cloud
+
 
 Purpose
 The /etc/ansible/hosts is a static repo of the hosts managed by Ansible but is not good for cloud deployments where the inventory hosts changes regularly so dynamic inventory is used
