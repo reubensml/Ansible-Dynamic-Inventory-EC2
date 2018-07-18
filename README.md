@@ -4,6 +4,7 @@ Dynamic inventory for Ansible hosts when working with AWS Cloud
 # Purpose
 
 The /etc/ansible/hosts is a static repo of the hosts managed by Ansible but is not good for cloud deployments where the inventory hosts changes regularly so dynamic inventory is used
+
 Resource
  https://aws.amazon.com/blogs/apn/getting-started-with-ansible-and-dynamic-amazon-ec2-inventory-management/
 
@@ -49,17 +50,25 @@ $ ssh-agent bash $ ansibleadmin@lpgpsap1014:~/.ssh> ssh-add ~/.ssh/XXXXXX.pem Id
 •	For the ERROR: "Failed to connect to the host via ssh: Permission denied (publickey).\r\n"
     set remote_user=ec2-user in the ansible.cfg file 
     ansibleadmin@lpgpsap1014:/etc/ansible> vi ansible.cfg 
+    
+•	 Ping the tag of the newly created Instance ot the Ansible Slave in my case the tag was Name:Ansible Created instance 
+     it changes to format tag_Name_Ansible_Created_Instance in the command below
 
-ansibleadmin@lpgpsap1014:/etc/ansible> ansible -m ping tag_Name_Ansible_Created_Instance [DEPRECATION WARNING]: ANSIBLE_HOSTS option, The variable is misleading as it can be a list of hosts and/or paths to inventory sources , use ANSIBLE_INVENTORY instead. This feature will be removed in version 2.8. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg. 34.245.73.144 | SUCCESS => { "changed": false, "ping": "pong"
+ansibleadmin@lpgpsap1014:/etc/ansible> ansible -m ping tag_Name_Ansible_Created_Instance
+[DEPRECATION WARNING]: ANSIBLE_HOSTS option, The variable is misleading as it can be a list of hosts and/or paths to inventory sources , use ANSIBLE_INVENTORY instead. This feature will be removed in version 2.8. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg. 34.245.73.144 | SUCCESS => { "changed": false, "ping": "pong"
 
 
 •	Helpful command 
  
- ansibleadmin@lpgpsap1014:/etc/ansible> ansible-config dump | grep HOST [DEPRECATION WARNING]: ANSIBLE_HOSTS option, The variable is misleading as it can be a list of hosts and/or paths to inventory sources , use ANSIBLE_INVENTORY instead. This feature will be removed in version 2.8. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg. DEFAULT_HOST_LIST(env: ANSIBLE_HOSTS) = [u'/etc/ansible/ec2.py'] DISPLAY_SKIPPED_HOSTS(default) = True HOST_KEY_CHECKING(/etc/ansible/ansible.cfg) = False LOCALHOST_WARNING(default) = True PARAMIKO_HOST_KEY_AUTO_ADD(default) = False
+ "ansibleadmin@lpgpsap1014:/etc/ansible> ansible-config dump | grep HOST "
+ 
+ [DEPRECATION WARNING]: ANSIBLE_HOSTS option, The variable is misleading as it can be a list of hosts and/or paths to inventory sources , use ANSIBLE_INVENTORY instead. This feature will be removed in version 2.8. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg. DEFAULT_HOST_LIST(env: ANSIBLE_HOSTS) = [u'/etc/ansible/ec2.py'] DISPLAY_SKIPPED_HOSTS(default) = True HOST_KEY_CHECKING(/etc/ansible/ansible.cfg) = False LOCALHOST_WARNING(default) = True PARAMIKO_HOST_KEY_AUTO_ADD(default) = False
 
 # Final Check
 
-ansibleadmin@lpgpsap1014:/etc/ansible> /etc/ansible/ec2.py --list { "_meta": { "hostvars": { "34.245.73.144": { "ansible_host": "34.245.73.144", "ec2__in_monitoring_element": false, "ec2_account_id": "462621403766", "ec2_ami_launch_index": "0", "ec2_architecture": "x86_64", "ec2_block_devices": { "sda1": "vol-0b4018c3dc3ea7c92" }, "ec2_client_token": "", "52.30.76.143" ], "tag_Name_Ansible_Created_Instance": [ "34.245.73.144" ], "tag_Name_Ansible_Server_Master_Host": [ "52.30.76.143" ], "type_t2_micro": [ "34.245.73.144", "52.30.76.143" ], "vpc_id_vpc_32569d55": [
+ansibleadmin@lpgpsap1014:/etc/ansible> /etc/ansible/ec2.py --list 
+
+{ "_meta": { "hostvars": { "34.245.73.144": { "ansible_host": "34.245.73.144", "ec2__in_monitoring_element": false, "ec2_account_id": "462621403766", "ec2_ami_launch_index": "0", "ec2_architecture": "x86_64", "ec2_block_devices": { "sda1": "vol-0b4018c3dc3ea7c92" }, "ec2_client_token": "", "52.30.76.143" ], "tag_Name_Ansible_Created_Instance": [ "34.245.73.144" ], "tag_Name_Ansible_Server_Master_Host": [ "52.30.76.143" ], "type_t2_micro": [ "34.245.73.144", "52.30.76.143" ], "vpc_id_vpc_32569d55": [
 
 # Result 
 
